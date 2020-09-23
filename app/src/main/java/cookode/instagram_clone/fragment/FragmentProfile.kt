@@ -54,6 +54,10 @@ class FragmentProfile : Fragment() {
             this.profileId = pref.getString("profileId","none")!!
         }
 
+        val prefEdit = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        prefEdit?.putString("profileId", firebaseUser.uid)
+        prefEdit?.apply()
+
         if (profileId == firebaseUser.uid) {
 
             view?.btn_edit_account?.text = "Edit Profile"
@@ -91,7 +95,7 @@ class FragmentProfile : Fragment() {
                             .child("Following").child(profileId).setValue(true)
                     }
 
-                    firebaseUser?.uid.let { it1 ->
+                    firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(profileId)
                             .child("Followers").child(it1.toString()).setValue(true)
@@ -99,13 +103,13 @@ class FragmentProfile : Fragment() {
                 }
 
                 getButtonText == "Following" -> {
-                    firebaseUser?.uid.let { it1 ->
+                    firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(it1.toString())
                             .child("Following").child(profileId).removeValue()
                     }
 
-                    firebaseUser?.uid.let { it1 ->
+                    firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(profileId)
                             .child("Followers").child(it1.toString()).removeValue()
@@ -125,30 +129,26 @@ class FragmentProfile : Fragment() {
     }
 
     private fun cekFollowAndFollowingButtonStatus() {
-        val followingRef = firebaseUser?.uid.let { it1 ->
+        val followingRef = firebaseUser.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Following")
         }
 
-        if (followingRef != null)
-        {
-            followingRef.addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(p0: DataSnapshot) {
+        followingRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
 
-                    if (p0.child(profileId).exists())
-                    {
-                        view?.btn_edit_account?.text = "Following"
-                    } else {
-                        view?.btn_edit_account?.text = "Follow"
-                    }
+                if (p0.child(profileId).exists()) {
+                    view?.btn_edit_account?.text = "Following"
+                } else {
+                    view?.btn_edit_account?.text = "Follow"
                 }
+            }
 
-                override fun onCancelled(p0: DatabaseError) {
+            override fun onCancelled(p0: DatabaseError) {
 
-                }
-            })
-        }
+            }
+        })
     }
 
     private fun getFollowers()
@@ -244,26 +244,26 @@ class FragmentProfile : Fragment() {
         })
     }
 
-    override fun onStop() {
-        super.onStop()
-        val pref = context?.getSharedPreferences("PREFS",Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
-        pref?.apply()
+//    override fun onStop() {
+//        super.onStop()
+//        val pref = context?.getSharedPreferences("PREFS",Context.MODE_PRIVATE)?.edit()
+//        pref?.putString("profileId", firebaseUser.uid)
+//        pref?.apply()
+//
+//    }
 
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        val pref = context?.getSharedPreferences("PREFS",Context.MODE_PRIVATE)?.edit()
+//        pref?.putString("profileId", firebaseUser.uid)
+//        pref?.apply()
+//    }
 
-    override fun onPause() {
-        super.onPause()
-        val pref = context?.getSharedPreferences("PREFS",Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
-        pref?.apply()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        val pref = context?.getSharedPreferences("PREFS",Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
-        pref?.apply()
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        val pref = context?.getSharedPreferences("PREFS",Context.MODE_PRIVATE)?.edit()
+//        pref?.putString("profileId", firebaseUser.uid)
+//        pref?.apply()
+//    }
 
 }

@@ -1,24 +1,24 @@
 package cookode.instagram_clone.model
 
 class Post {
-    private var postId : String = ""
-    private var postImage : String = ""
+    private var postid : String = ""
+    private var postimage : String ? = null
     private var publisher : String = ""
     private var description : String = ""
 
 
     constructor()
     constructor(postId: String, postImage: String, publisher: String, description: String) {
-        this.postId = postId
-        this.postImage = postImage
+        this.postid = postId
+        this.postimage = postImage
         this.publisher = publisher
         this.description = description
     }
     fun getPostId(): String {
-        return postId
+        return postid
     }
-    fun getPostImage(): String {
-        return postImage
+    fun getPostImage(): String? {
+        return postimage
     }
     fun getPublisher(): String {
         return publisher
@@ -27,10 +27,10 @@ class Post {
         return description
     }
     fun setPostId(postId: String) {
-        this.postId = postId
+        this.postid = postId
     }
     fun setPostImage(postImage: String) {
-        this.postImage = postImage
+        this.postimage = postImage
     }
     fun setPublisher(publisher: String) {
         this.publisher = publisher

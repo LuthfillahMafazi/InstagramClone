@@ -81,7 +81,7 @@ class SettingAccountActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()){
                     val user = p0.getValue<User>(User::class.java)
-                    fbImage = user!!.getImage()
+                    fbImage = user?.getImage()!!
                     fbUsername = user.getUsername()
                     fbFullname = user.getFullName()
                     fbBiodata = user.getBio()

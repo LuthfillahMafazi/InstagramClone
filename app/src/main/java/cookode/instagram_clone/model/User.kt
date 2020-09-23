@@ -4,7 +4,7 @@ class User {
     private var username : String = ""
     private var fullname : String = ""
     private var bio : String = ""
-    private var image : String = ""
+    private var image : String? = null
     private var uid : String = ""
 
     constructor()
@@ -24,7 +24,7 @@ class User {
     fun getBio(): String {
         return bio
     }
-    fun getImage(): String {
+    fun getImage(): String? {
         return image
     }
     fun getUid(): String {
